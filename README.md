@@ -1,7 +1,7 @@
 # News
 - This is an android app using retrofit libarary.
-  # Retrofit 
-  is a REST Client for Java and Android. It makes it relatively easy to retrieve and upload JSON (or other structured data) via a REST based webservice
+# Retrofit 
+  Retrofit is a REST Client for Java and Android. It makes it relatively easy to retrieve and upload JSON (or other structured data) via a REST based webservice
 # Description
 - Get the lates news around the world
 - Retrieves data from The News API
