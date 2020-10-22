@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.news.adapters.NewsAdapter;
+import com.example.news.adapters.NewsDataAdapter;
 import com.example.news.model.News;
 import com.example.news.model.NewsResource;
 import com.example.news.retrofit.ApiClient;
@@ -34,11 +35,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<News> newsResourcesList;
     NewsAdapter newsAdapter;
     Button technologyBtn,healthBtn,scienceBtn,sportsBtn,generalBtn;
-
     RecyclerView recyclerList;
-    ArrayList<News> arrticles;
+    ArrayList<News> articles;
+    NewsDataAdapter newsDataAdapter;
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager manager= new LinearLayoutManager(getApplicationContext(),RecyclerView.HORIZONTAL,false);
         recyclerView.setLayoutManager(manager);
         newsResourcesList= new ArrayList<>();
-        
+
+        recyclerList =findViewById(R.id.list);
+        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getApplicationContext(),RecyclerView.VERTICAL,false);
+        recyclerList.setLayoutManager(layoutManager);
+        articles= new ArrayList<>();
+
+
+
         ApiClient.getClient().create(ApiResponse.class).getNews("technology",API_KEY).enqueue(new Callback<NewsResource>() {
             @Override
             public void onResponse(Call<NewsResource> call, Response<NewsResource> response) {
@@ -72,33 +79,43 @@ public class MainActivity extends AppCompatActivity {
 
         technologyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 buttonStyle(technologyBtn.getText().toString());
+                loadJson(technologyBtn.getText().toString());
+
             }
         });
         healthBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 buttonStyle(healthBtn.getText().toString());
+                loadJson(healthBtn.getText().toString());
+
             }
         });
         sportsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonStyle(sportsBtn.getText().toString());
+                loadJson(sportsBtn.getText().toString());
+
             }
         });
         scienceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonStyle(scienceBtn.getText().toString());
+                loadJson(scienceBtn.getText().toString());
+
             }
         });
         generalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonStyle(generalBtn.getText().toString());
-                Toast.makeText(MainActivity.this, generalBtn.getText().toString(), Toast.LENGTH_SHORT).show();
+                loadJson(generalBtn.getText().toString());
             }
         });
 
@@ -176,10 +193,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadJson(String path,String apikey)
+    public void loadJson(String path)
     {
+        articles.clear();
+        ApiClient.getClient().create(ApiResponse.class).getNews(path,API_KEY).enqueue(new Callback<NewsResource>() {
+            @Override
+            public void onResponse(Call<NewsResource> call, Response<NewsResource> response) {
 
+                articles = response.body().getArticles();
+                newsDataAdapter = new NewsDataAdapter(articles);
+                recyclerList.setAdapter(newsDataAdapter);
+               // recyclerList.notify();
+            }
 
+            @Override
+            public void onFailure(Call<NewsResource> call, Throwable t) {
+
+            }
+        });
     }
 
 

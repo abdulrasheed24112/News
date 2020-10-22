@@ -31,6 +31,8 @@ public class NewsDataAdapter extends RecyclerView.Adapter<NewsDataAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull NewsDataAdapter.ViewHolder holder, int position) {
+        News news= arrayList.get(position);
+        
 
     }
 
