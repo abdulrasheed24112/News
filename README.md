@@ -11,4 +11,7 @@
 - fetch json data and parsing it 
 - How to make recycler view and use it for json data
 - Use network operation in this project 
+# Note 
+- This is fully open source project 
+- Use your own API so, register on [NewsApi](https://newsapi.org/)
 
